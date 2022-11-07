@@ -2,7 +2,7 @@
 const BLOG = {
   AUTHOR: 'Eddie He', // 作者
   BIO: '有好奇心的学生/互联网冲浪爱好者', // 作者简介
-  LINK: 'https://eddiehe.vercel.app', // 网站地址
+  LINK: 'https://www.eddiehe.xyz', // 网站地址
   KEYWORDS: 'Notion, 博客', // 网站关键词 英文逗号隔开
   NOTION_PAGE_ID:
   process.env.NOTION_PAGE_ID || 'f2e4fc1a7e4b4718b52f195e97eac2a6', // Important page_id！！！Duplicate Template from  https://www.notion.so/tanghh/02ab3b8678004aa69e9e415905ef32a5
