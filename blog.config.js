@@ -10,12 +10,12 @@ const BLOG = {
   SINCE: 2021, // e.g if leave this empty, current year will be used.
   APPEARANCE: 'auto', // ['light', 'dark', 'auto'], // light 日间模式 ， dark夜间模式， auto根据时间和主题自动夜间模式
 
-  AUTHOR: 'Eddie He', // 作者
+  AUTHOR: 'Eddie He', // 您的昵称 例如 tangly1024
   BIO: '有好奇心的学生/互联网冲浪爱好者', // 作者简介
   LINK: 'https://www.eddiehe.xyz', // 网站地址
   KEYWORDS: 'Notion, 博客', // 网站关键词 英文逗号隔开
   // 社交链接，不需要可留空白，例如 CONTACT_WEIBO:''
-  CONTACT_EMAIL: 'eddiehe99@outlook.com', // 邮箱
+  CONTACT_EMAIL: 'eddiehe99@outlook.com', // 邮箱地址 例如mail@tangly1024.com
   CONTACT_WEIBO: 'https://weibo.com/u/2327943937', // 你的微博个人主页
   CONTACT_TWITTER: 'https://twitter.com/eddiehe99', // 你的twitter个人主页
   CONTACT_GITHUB: 'https://github.com/eddiehe99', // 你的github个人主页
@@ -201,9 +201,14 @@ const BLOG = {
   // 自定义配置notion数据库字段名
   NOTION_PROPERTY_NAME: {
     password: process.env.NEXT_PUBLIC_NOTION_PROPERTY_PASSWORD || 'password',
-    type: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE || 'type',
-    title: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TITLE || 'title',
+    type: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE || 'type', // 文章类型，
+    type_post: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_POST || 'Post', // 当type文章类型与此值相同时，为博文。
+    type_page: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_PAGE || 'Page', // 当type文章类型与此值相同时，为单页。
+    type_notice: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TYPE_NOTICE || 'Notice', // 当type文章类型与此值相同时，为公告。
+    title: process.env.NEXT_PUBLIC_NOTION_PROPERTY_TITLE || 'title', // 文章标题
     status: process.env.NEXT_PUBLIC_NOTION_PROPERTY_STATUS || 'status',
+    status_publish: process.env.NEXT_PUBLIC_NOTION_PROPERTY_STATUS_PUBLISH || 'Published', // 当status状态值与此相同时为发布，可以为中文
+    status_invisible: process.env.NEXT_PUBLIC_NOTION_PROPERTY_STATUS_INVISIBLE || 'Invisible', // 当status状态值与此相同时为隐藏发布，可以为中文 ， 除此之外其他页面状态不会显示在博客上
     summary: process.env.NEXT_PUBLIC_NOTION_PROPERTY_SUMMARY || 'summary',
     slug: process.env.NEXT_PUBLIC_NOTION_PROPERTY_SLUG || 'slug',
     category: process.env.NEXT_PUBLIC_NOTION_PROPERTY_CATEGORY || 'category',
