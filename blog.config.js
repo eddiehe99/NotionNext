@@ -12,7 +12,7 @@ const BLOG = {
 
   AUTHOR: 'Eddie He', // 您的昵称 例如 tangly1024
   BIO: '有好奇心的学生/互联网冲浪爱好者', // 作者简介
-  LINK: 'https://www.eddiehe.xyz', // 网站地址
+  LINK: process.env.NEXT_PUBLIC_LINK || 'https://www.eddiehe.xyz', // 网站地址
   KEYWORDS: 'Notion, 博客', // 网站关键词 英文逗号隔开
   // 社交链接，不需要可留空白，例如 CONTACT_WEIBO:''
   CONTACT_EMAIL: 'eddiehe99@outlook.com', // 邮箱地址 例如mail@tangly1024.com
