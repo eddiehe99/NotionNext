@@ -12,6 +12,9 @@ const BLOG = {
     APPEARANCE: process.env.NEXT_PUBLIC_APPEARANCE || 'auto', // ['light', 'dark', 'auto'], // light 日间模式 ， dark夜间模式， auto根据时间和主题自动夜间模式
     APPEARANCE_DARK_TIME: process.env.NEXT_PUBLIC_APPEARANCE_DARK_TIME || [18, 6], // 夜间模式起至时间，false时关闭根据时间自动切换夜间模式
 
+    // 3.14.1版本后，欢迎语在此配置，英文逗号隔开 ,  即可支持多个欢迎语打字效果。
+    GREETING_WORDS: process.env.NEXT_PUBLIC_GREETING_WORDS || 'Hi there, I am Eddie He, a postgraduate studying at South China Normal University.',
+
     CUSTOM_MENU: process.env.NEXT_PUBLIC_CUSTOM_MENU || false, // 支持Menu 类型，从3.12.0版本起，各主题将逐步支持灵活的二级菜单配置，替代了原来的Page类型，此配置是试验功能、默认关闭。
 
     AUTHOR: process.env.NEXT_PUBLIC_AUTHOR || 'Eddie He', // 您的昵称 例如 tangly1024
@@ -94,6 +97,9 @@ const BLOG = {
         'https://npm.elemecdn.com/prism-themes/themes/prism-a11y-dark.min.css', // 代码样式主题 更多参考 https://github.com/PrismJS/prism-themes
     CODE_MAC_BAR: true, // 代码左上角显示mac的红黄绿图标
     CODE_LINE_NUMBERS: process.env.NEXT_PUBLIC_CODE_LINE_NUMBERS || 'false', // 是否显示行号
+
+    // Mermaid 图表CDN
+    MERMAID_CDN: process.env.NEXT_PUBLIC_MERMAID_CDN || 'https://cdn.jsdelivr.net/npm/mermaid@10.2.2/dist/mermaid.min.js', // CDN
 
     BACKGROUND_LIGHT: '#eeeeee', // use hex value, don't forget '#' e.g #fffefc
     BACKGROUND_DARK: '#000000', // use hex value, don't forget '#'
