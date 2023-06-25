@@ -16,6 +16,7 @@ import Catalog from './components/Catalog'
 import { useRouter } from 'next/router'
 import Announcement from './components/Announcement'
 import PageNavDrawer from './components/PageNavDrawer'
+import FloatTocButton from './components/FloatTocButton'
 const ThemeGlobalMedium = createContext()
 
 /**
@@ -31,6 +32,8 @@ const LayoutBase = (props) => {
   const [filterPosts, setFilterPosts] = useState(allNavPages)
   const { onLoading } = useGlobal()
   const router = useRouter()
+
+  const showTocButton = post?.toc?.length > 1
 
   useEffect(() => {
     setFilterPosts(allNavPages)
@@ -78,8 +81,8 @@ const LayoutBase = (props) => {
                                 data-aos-duration="300"
                                 data-aos-once="false"
                                 data-aos-anchor-placement="top-center"
-                                className='fixed xl:right-80 right-2 mr-10 bottom-24 hidden lg:block z-20'>
-                                <i className='fas fa-chevron-up cursor-pointer p-2 rounded-full border' onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
+                                className='fixed xl:right-80 right-2 mr-10 bottom-24 hidden lg:block z-20 '>
+                                <i className='fas fa-chevron-up cursor-pointer p-2 rounded-full border bg-white dark:bg-black dark:border-gray-800' onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }} />
                             </div>
                         </div>
 
@@ -108,6 +111,10 @@ const LayoutBase = (props) => {
                     </div>
 
                 </main>
+
+                {showTocButton && !tocVisible && <div className='fixed right-0 bottom-52 z-30 bg-white border-l border-t border-b dark:border-gray-800 rounded'>
+                    <FloatTocButton {...props}/>
+                </div>}
 
                 <PageNavDrawer {...props}/>
 
