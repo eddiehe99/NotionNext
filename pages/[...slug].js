@@ -28,7 +28,6 @@ const Slug = props => {
   */
   const validPassword = passInput => {
     const encrypt = md5(post.slug + passInput)
-    console.log('passInput', passInput, post.slug)
     if (passInput && encrypt === post.password) {
       setLock(false)
       return true
@@ -97,7 +96,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { slug } }) {
   let fullSlug = slug.join('/')
-  if (BLOG.PSEUDO_STATIC) {
+  if (JSON.parse(BLOG.PSEUDO_STATIC)) {
     if (!fullSlug.endsWith('.html')) {
       fullSlug += '.html'
     }
