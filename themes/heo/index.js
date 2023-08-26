@@ -15,7 +15,7 @@ import SearchNav from './components/SearchNav'
 import BlogPostArchive from './components/BlogPostArchive'
 import { ArticleLock } from './components/ArticleLock'
 import PostHeader from './components/PostHeader'
-import Comment from '@/components/Comment'
+import Comment, { commentEnable } from '@/components/Comment'
 import NotionPage from '@/components/NotionPage'
 import ArticleAdjacent from './components/ArticleAdjacent'
 import ArticleCopyright from './components/ArticleCopyright'
@@ -31,6 +31,8 @@ import LatestPostsGroup from './components/LatestPostsGroup'
 import FloatTocButton from './components/FloatTocButton'
 import replaceSearchResult from '@/components/Mark'
 import LazyImage from '@/components/LazyImage'
+import WWAds from '@/components/WWAds'
+import { AdSlot } from '@/components/GoogleAdsense'
 
 /**
  * 基础布局 采用上中下布局，移动端使用顶部侧边导航栏
@@ -44,7 +46,7 @@ const LayoutBase = props => {
   return (
         <div id='theme-heo' className='bg-[#f7f9fe] dark:bg-[#18171d] h-full min-h-screen flex flex-col'>
             {/* SEO信息 */}
-            <CommonHead meta={meta}/>
+            <CommonHead meta={meta} />
             <Style />
 
             {/* 顶部嵌入 导航栏，首页放hero，文章页放文章详情 */}
@@ -87,6 +89,9 @@ const LayoutIndex = (props) => {
         {/* 通知横幅 */}
         <NoticeBar />
         <Hero {...props} />
+        <div className='max-w-[86rem] mx-auto px-3'>
+          <WWAds className='w-full' orientation='horizontal' />
+        </div>
     </header>
 
   // 右侧栏 用户信息+标签列表
@@ -158,7 +163,9 @@ const LayoutSearch = props => {
             <div id='post-outer-wrapper' className='px-5  md:px-0'>
                 {!currentSearch
                   ? <SearchNav {...props} />
-                  : <div id="posts-wrapper"> {BLOG.POST_LIST_STYLE === 'page' ? <BlogPostListPage {...props} /> : <BlogPostListScroll {...props} />}  </div>}
+                  : <div id="posts-wrapper">
+                        {BLOG.POST_LIST_STYLE === 'page' ? <BlogPostListPage {...props} /> : <BlogPostListScroll {...props} />}
+                    </div>}
             </div>
         </LayoutBase>
   )
@@ -223,7 +230,8 @@ const LayoutSlug = props => {
 
   return (
         <LayoutBase {...props} headerSlot={headerSlot} showCategory={false} showTag={false} slotRight={slotRight}>
-            <div className="w-full max-w-5xl lg:hover:shadow lg:border rounded-t-2xl lg:px-2 lg:py-4 bg-white dark:bg-[#18171d] dark:border-gray-600 article">
+            <div className="w-full max-w-5xl lg:hover:shadow lg:border rounded-2xl lg:px-2 lg:py-4 bg-white dark:bg-[#18171d] dark:border-gray-600 article">
+
                 {lock && <ArticleLock validPassword={validPassword} />}
 
                 {!lock && <div id="article-wrapper" className="overflow-x-auto flex-grow mx-auto md:w-full md:px-5 ">
@@ -233,10 +241,12 @@ const LayoutSlug = props => {
                         data-aos-duration="300"
                         data-aos-once="false"
                         data-aos-anchor-placement="top-bottom"
-                         itemScope itemType="https://schema.org/Movie" className="subpixel-antialiased overflow-y-hidden" >
+                        itemScope itemType="https://schema.org/Movie" className="subpixel-antialiased overflow-y-hidden" >
                         {/* Notion文章主体 */}
                         <section className='px-5 justify-center mx-auto'>
+                            <WWAds orientation='horizontal' className='w-full'/>
                             {post && <NotionPage post={post} />}
+                            <WWAds orientation='horizontal' className='w-full'/>
                         </section>
 
                         {/* 分享 */}
@@ -253,13 +263,21 @@ const LayoutSlug = props => {
 
                     </article>
 
-                    <hr className='my-4 border-dashed' />
+                    <div className={`${commentEnable && post ? '' : 'hidden'}`}>
 
-                    {/* 评论互动 */}
-                    <div className="duration-200 overflow-x-auto px-5">
-                        <div className='text-2xl dark:text-white'><i className='fas fa-comment mr-1' />{locale.COMMON.COMMENTS}</div>
-                        <Comment frontMatter={post} className='' />
+                        <hr className='my-4 border-dashed' />
+
+                        {/* 评论互动 */}
+                        <div className="duration-200 overflow-x-auto px-5">
+                            <div className='text-2xl dark:text-white'><i className='fas fa-comment mr-1' />{locale.COMMON.COMMENTS}</div>
+                            <Comment frontMatter={post} className='' />
+                            <div className='py-2'>
+                             <AdSlot/>
+                            </div>
+                        </div>
+
                     </div>
+
                 </div>}
             </div>
             <FloatTocButton {...props} />
@@ -298,7 +316,7 @@ const Layout404 = props => {
                         appear={true}
                         enter="transition ease-in-out duration-700 transform order-first"
                         enterFrom="opacity-0 translate-y-16"
-                        enterTo="opacity-100 translate-y-0"
+                        enterTo="opacity-100"
                         leave="transition ease-in-out duration-300 transform"
                         leaveFrom="opacity-100 translate-y-0"
                         leaveTo="opacity-0 -translate-y-16"
