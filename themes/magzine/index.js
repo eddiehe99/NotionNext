@@ -1,3 +1,4 @@
+import AlgoliaSearchModal from '@/components/AlgoliaSearchModal'
 import Comment from '@/components/Comment'
 import LoadingCover from '@/components/LoadingCover'
 import replaceSearchResult from '@/components/Mark'
@@ -76,7 +77,11 @@ const LayoutBase = props => {
             <Footer title={siteConfig('TITLE')} />
           </div>
         </main>
+
+        {/* 全局Loading */}
         <LoadingCover />
+        {/* 全局搜索遮罩 */}
+        <AlgoliaSearchModal cRef={searchModal} {...props} />
       </div>
     </ThemeGlobalMagzine.Provider>
   )
@@ -123,7 +128,7 @@ const LayoutPostList = props => {
   const { category, tag } = props
 
   return (
-    <div className=' max-w-screen-2xl mx-auto w-full px-2 lg:px-0'>
+    <div className=' max-w-screen-3xl mx-auto w-full px-2 lg:px-0'>
       {/* 一个顶部条 */}
       <h2 className='py-8 text-2xl font-bold'>{category || tag}</h2>
 
@@ -167,12 +172,12 @@ const LayoutSlug = props => {
 
   return (
     <>
-      <div {...props} className='w-full mx-auto max-w-screen-2xl'>
+      <div {...props} className='w-full mx-auto max-w-screen-3xl'>
         {/* 文章锁 */}
         {lock && <ArticleLock validPassword={validPassword} />}
 
         {!lock && (
-          <div className='w-full max-w-screen-2xl mx-auto'>
+          <div className='w-full max-w-screen-3xl mx-auto'>
             {/* 文章信息 */}
             <ArticleInfo {...props} />
 
@@ -293,7 +298,7 @@ const LayoutSearch = props => {
   }, [])
 
   return (
-    <div className='max-w-screen-2xl w-full mx-auto'>
+    <div className='max-w-screen-3xl w-full mx-auto'>
       {/* 搜索导航栏 */}
       <div className='py-12'>
         <div className='pb-4 w-full'>{locale.NAV.SEARCH}</div>
@@ -328,7 +333,7 @@ const LayoutArchive = props => {
   const { archivePosts } = props
   return (
     <>
-      <div className='w-full max-w-screen-2xl mx-auto mt-14 min-h-full'>
+      <div className='w-full max-w-screen-3xl mx-auto mt-14 min-h-full'>
         {Object.keys(archivePosts)?.map(archiveTitle => (
           <PostGroupArchive
             key={archiveTitle}
@@ -365,7 +370,7 @@ const LayoutCategoryIndex = props => {
   const { categoryOptions } = props
   const { locale } = useGlobal()
   return (
-    <div className='w-full max-w-screen-2xl mx-auto min-h-96'>
+    <div className='w-full max-w-screen-3xl mx-auto min-h-96'>
       <div className='bg-white dark:bg-gray-700 py-10'>
         <div className='dark:text-gray-200 mb-5 text-2xl font-bold'>
           {/* <i className='mr-4 fas fa-th' /> */}
@@ -404,7 +409,7 @@ const LayoutTagIndex = props => {
   const { tagOptions } = props
   const { locale } = useGlobal()
   return (
-    <div className='w-full max-w-screen-2xl mx-auto min-h-96'>
+    <div className='w-full max-w-screen-3xl mx-auto min-h-96'>
       <div className='bg-white dark:bg-gray-700 py-10'>
         <div className='dark:text-gray-200 mb-5  text-2xl font-bold'>
           {/* <i className='mr-4 fas fa-tag' /> */}
