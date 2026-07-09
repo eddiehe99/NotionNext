@@ -23,9 +23,12 @@ const SEO = props => {
   const router = useRouter()
   const meta = getSEOMeta(props, router, useGlobal()?.locale)
   const webFontUrl = siteConfig('FONT_URL')
+  const hasWebFontUrl = Array.isArray(webFontUrl)
+    ? webFontUrl.filter(Boolean).length > 0
+    : Boolean(webFontUrl)
 
   useEffect(() => {
-    if (!webFontUrl) return
+    if (!hasWebFontUrl) return
 
     const timeoutId = window.setTimeout(() => {
       // 使用WebFontLoader字体加载
@@ -47,7 +50,7 @@ const SEO = props => {
     }, 1500)
 
     return () => window.clearTimeout(timeoutId)
-  }, [webFontUrl])
+  }, [hasWebFontUrl, webFontUrl])
 
   // SEO关键词
   const KEYWORDS = siteConfig('KEYWORDS')
@@ -231,10 +234,10 @@ const SEO = props => {
       />
 
       {/* DNS预取和预连接 */}
-      {webFontUrl && <link rel='dns-prefetch' href='//fonts.googleapis.com' />}
+      {hasWebFontUrl && <link rel='dns-prefetch' href='//fonts.googleapis.com' />}
       <link rel='dns-prefetch' href='//www.google-analytics.com' />
       <link rel='dns-prefetch' href='//www.googletagmanager.com' />
-      {webFontUrl && (
+      {hasWebFontUrl && (
         <link
           rel='preconnect'
           href='https://fonts.gstatic.com'
