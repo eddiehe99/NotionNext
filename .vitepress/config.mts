@@ -222,6 +222,8 @@ export default defineConfig({
             { text: 'Iconfont', link: '/user-guide/config/notion-next-iconfont' },
             { text: '代码样式', link: '/user-guide/config/notion-next-code-style' },
             { text: '自定义属性', link: '/user-guide/config/notion-next-custom-properties' },
+            { text: '文章复制权限', link: '/user-guide/config/copy-permission' },
+            { text: '文章版权声明', link: '/user-guide/config/article-copyright' },
             { text: '多语言站点', link: '/user-guide/config/notion-next-mulity-languages' },
             { text: '多站点聚合', link: '/user-guide/config/notion-next-site-combine' },
             { text: 'API Base URL', link: '/user-guide/config/notion-next-api_base_url' },
