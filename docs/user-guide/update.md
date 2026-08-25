@@ -32,7 +32,7 @@
 
 本项目在长期维护更新中，不时将修复一些bug和增加新特性。新版本中对页面样式以及加载速度都做了大量的优化，因此推荐您更新到最新版。
 
-您可以在[NotionNext的Github仓库](https://github.com/tangly1024/NotionNext)右上角点击Star，以便关注项目动态，您将第一时间收到新版本发布的消息。
+您可以在[NotionNext的Github仓库](https://github.com/notionnext-org/NotionNext)右上角点击Star，以便关注项目动态，您将第一时间收到新版本发布的消息。
 
 ![Untitled](/legacy/5c03aa929431ec11.png)
 
@@ -41,6 +41,40 @@
 [NotionNext文档](/user-guide/changelog/latest)
 
 NotionNext教程
+
+## 4.10.10 升级提示
+
+`4.10.10` 是一次小版本维护发布。普通站点同步最新 `main` 后重新部署即可，不需要新增必填环境变量。
+
+如果你希望 Notion 文章中的未收录内嵌子页面 URL 跟随父级文章路径，推荐在 Notion Config 配置中心添加：
+
+```txt
+Key:   INNER_PAGE_URL_PARENT_PATH
+Value: true
+```
+
+该方式不需要修改代码。也可以在部署平台添加环境变量：
+
+```bash
+NEXT_PUBLIC_INNER_PAGE_URL_PARENT_PATH=true
+```
+
+开启后，文章 `/article/fpga-studying-notes` 中未收录的子页面链接会显示为 `/article/fpga-studying-notes/{pageId}`。已收录到数据库并配置了 `slug` 的页面仍优先使用自己的正式地址。
+
+使用说明见 [URL 自定义：内嵌子页面跟随父路径](./config/url-customize.md#内嵌子页面跟随父路径)，完整发布说明见 [最新版本更新日志](./changelog/latest.md)。
+
+## 4.10.9 升级提示
+
+`4.10.9` 是一次小版本维护发布。普通站点同步最新 `main` 后重新部署即可，不需要新增必填环境变量。
+
+建议升级后重点检查：
+
+- 首页和菜单是否仍能正确读取 Notion Config；新版已兼容 Notion 的 `collection_view_page` 配置库块。
+- 含有数据库视图、HTML 块、Tabs 块或同步块的文章是否可以正常构建和打开。
+- 自定义菜单如果指向隐藏页面，目标页面可以设为 `Invisible`，菜单会跳转到该页面真实生成的地址。
+- 使用 Matery、Claude、Typography、Game、Nobelium、Plog 等主题时，检查移动端标签、分享栏、菜单图标和加密文章提交按钮。
+
+如果你的 fork 很久没有同步，仍然推荐先备份 `blog.config.js`、主题配置和自定义代码，再执行 `Sync fork`。
 
 
 ## 关于代码备份
@@ -85,6 +119,27 @@ NotionNext教程
 
 1. 显示 `Sync fork` 按钮，点击并选择 `Update branch` 按钮，即可自动更新。
 ![Untitled](/legacy/03ded28f962b1c4f.png)
+
+::: tip 按需开启自动同步
+NotionNext 默认不再每天自动运行 `Upstream Sync`，避免 fork 站长在同步失败时反复收到 GitHub Actions 邮件。
+
+平时建议使用上面的 `Sync fork` 按钮手动更新。只有你确实希望仓库每天自动同步上游时，再打开 `.github/workflows/sync.yaml`，在 `on:` 下加入：
+
+```yaml
+  schedule:
+    - cron: "0 0 * * *"
+```
+
+保存并提交后，GitHub Actions 会恢复每日自动同步。若后续又收到失败邮件，删除这段 `schedule` 即可恢复为手动更新。
+:::
+
+::: warning 旧自动流程导致 Vercel 构建失败
+如果 Vercel 里出现 `chore(release): bump package.json ... [skip-version]` 之类的失败记录，通常是旧版自动更新流程触发了无意义的生产重建。
+
+先恢复线上站点：进入 Vercel 项目 `Deployments`，找到最近一条绿色 `Ready` 的 `Production` 记录，点击右侧 `...`，选择 `Promote to Production` 或 `Redeploy`。
+
+再处理根因：同步最新 NotionNext 代码。本仓库已默认关闭 `Upstream Sync` 定时任务，并让 Vercel 跳过 `[skip-version]` 版本号提交，减少自动流程对站长的打扰。
+:::
 
 1. 没有上面两种情况的按钮，这种情况下大概率是因为修改了相同部分的代码导致冲突，需要手动确认才能合并，请看下文。
 
@@ -145,11 +200,11 @@ NotionNext更新冲突？网上教程还要VS code和git?通通不需要，马�
 
 ## Github 自动化（高阶方法，需要一定知识）
 
-除了手动点击 `Fetch upstream` / `Sync fork` 按钮，仓库内置了一个 GitHub Actions workflow（[`.github/workflows/sync.yaml`](https://github.com/tangly1024/NotionNext/blob/main/.github/workflows/sync.yaml)），可以自动帮你完成每日同步上游最新代码的工作。
+除了手动点击 `Fetch upstream` / `Sync fork` 按钮，仓库内置了一个 GitHub Actions workflow（[`.github/workflows/sync.yaml`](https://github.com/notionnext-org/NotionNext/blob/main/.github/workflows/sync.yaml)），可以自动帮你完成每日同步上游最新代码的工作。
 
 ### 功能说明
 
-该 workflow 每天 UTC 0点（对应北京时间早上8点）自动运行一次，将上游仓库 `tangly1024/NotionNext` 的 `main` 分支同步合并到你 fork 仓库的 `main` 分支，不需要每天手动点击更新按钮。
+该 workflow 每天 UTC 0点（对应北京时间早上8点）自动运行一次，将上游仓库 `notionnext-org/NotionNext` 的 `main` 分支同步合并到你 fork 仓库的 `main` 分支，不需要每天手动点击更新按钮。
 
 关键配置如下：
 
@@ -165,7 +220,7 @@ jobs:
     steps:
       - uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
         with:
-          upstream_sync_repo: tangly1024/NotionNext
+          upstream_sync_repo: notionnext-org/NotionNext
           upstream_sync_branch: main
           target_sync_branch: main
 ```
